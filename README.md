@@ -25,7 +25,7 @@ Built with Python, LangChain, Streamlit, and Pinecone.
 ## 📁 Project Structure
 
 ```
-Simple-RAG-Chatbot/
+ChatBot/
 ├── .env.example            # Template for API keys → copy to .env
 ├── requirements.txt        # Pinned, tested dependencies
 ├── src/
@@ -47,8 +47,8 @@ Simple-RAG-Chatbot/
 ### 2. Install
 
 ```bash
-git clone https://github.com/MayankSharma/Simple-RAG-Chatbot.git
-cd Simple-RAG-Chatbot
+git clone https://github.com/MayankSharma26032006/ChatBot.git
+cd ChatBot
 
 python -m venv .venv
 source .venv/bin/activate      # Windows: .venv\Scripts\activate
