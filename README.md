@@ -32,7 +32,6 @@ ChatBot/
 │   ├── RAG_ChatBot.py      # Chatbot: load, split, embed, store, retrieve, chain
 │   ├── streamlitMain.py    # Streamlit user interface
 │   └── materials/          # Knowledge base documents
-├── report/                 # Project report (PDF)
 └── video/                  # Demo video
 ```
 
