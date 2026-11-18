@@ -1,0 +1,31 @@
+# Never send secrets into the image — .env is passed in at run time
+.env
+.env.*
+
+# Git history
+.git
+.gitignore
+
+# Python caches and virtual environments
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.venv/
+venv/
+env/
+
+# Local tooling / IDE / OS files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+.streamlit/
+
+# Not needed inside the container
+video/
+Dockerfile
+.dockerignore
+docker-compose.yml
+README.md
+LICENSE

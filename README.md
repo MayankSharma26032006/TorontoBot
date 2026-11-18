@@ -28,6 +28,9 @@ Built with Python, LangChain, Streamlit, and Pinecone.
 ChatBot/
 ├── .env.example            # Template for API keys → copy to .env
 ├── requirements.txt        # Pinned, tested dependencies
+├── Dockerfile              # Recipe for the Docker image
+├── .dockerignore           # Files Docker should not send into the image
+├── docker-compose.yml      # Makes running the container one command
 ├── src/
 │   ├── RAG_ChatBot.py      # Chatbot: load, split, embed, store, retrieve, chain
 │   ├── streamlitMain.py    # Streamlit user interface
@@ -70,6 +73,53 @@ streamlit run src/streamlitMain.py
 ```
 
 Open **http://localhost:8501** and start chatting about Toronto!
+
+## 🐳 Running with Docker
+
+You can also run the app inside a container — no local Python setup needed. You only need [Docker Desktop](https://www.docker.com/products/docker-desktop/) installed and running.
+
+> 🔒 Your `.env` file stays on your machine. It is listed in `.dockerignore`, so it is never copied into the image; Docker only passes its values to the running container at start-up.
+
+### 1. Make sure `.env` exists
+
+```bash
+cp .env.example .env           # Windows: copy .env.example .env
+```
+
+Fill in your `OPENAI_API_KEY` and `PINECONE_API_KEY` as described above.
+
+### 2. Build and run
+
+```bash
+docker compose up --build
+```
+
+The first build installs the Python packages and takes a few minutes; later runs are much faster. Once the terminal shows the Streamlit URL, open **http://localhost:8501**.
+
+### 3. Stop
+
+Press `Ctrl+C` in the terminal running the app, or in another terminal run:
+
+```bash
+docker compose down
+```
+
+### What each Docker file does
+
+| File | What it does |
+|---|---|
+| `Dockerfile` | Recipe for the image: Python base image, install the CPU build of PyTorch (the GPU build is several GB and this app runs on CPU), `pip install -r requirements.txt`, copy `src/`, start Streamlit on port 8501 |
+| `.dockerignore` | Keeps `.env`, `.git`, Python caches and virtual environments out of the image |
+| `docker-compose.yml` | Builds the image, publishes port 8501, and loads `.env` at run time |
+
+### Handy Docker commands
+
+| Command | What it does |
+|---|---|
+| `docker compose up --build` | Build the image and start the app |
+| `docker compose up` | Start the app again without rebuilding |
+| `docker compose down` | Stop and remove the container |
+| `docker compose logs -f` | Follow the app's logs |
 
 ## 🔑 Getting Your API Keys
 
@@ -118,6 +168,8 @@ Open **http://localhost:8501** and start chatting about Toronto!
 | Index creation fails | Your Pinecone account may not support `aws/us-east-1` — set `PINECONE_CLOUD` / `PINECONE_REGION` to a cloud/region your account supports (e.g. `gcp` / `us-central1`) |
 | Answers look wrong | The knowledge base only covers Toronto travel — rephrase your question, or extend the documents in `src/materials/` |
 | First run is slow | The embedding model downloads once (~400 MB) and Pinecone provisions the index |
+| `docker compose up` says the env file is missing | Create `.env` from `.env.example` (see [Running with Docker](#-running-with-docker)) |
+| Docker build fails with "daemon is not running" | Start Docker Desktop and wait until it says "Engine running" |
 
 ## 📄 License
 

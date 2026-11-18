@@ -1,0 +1,13 @@
+services:
+  torontobot:
+    # Build the image from the Dockerfile in this folder
+    build: .
+
+    # Make the Streamlit app available at http://localhost:8501
+    ports:
+      - "8501:8501"
+
+    # Pass the API keys from .env into the running container.
+    # The file itself stays on your machine and is never copied into the image.
+    env_file:
+      - .env
